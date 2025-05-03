@@ -8,6 +8,12 @@
     },
     {
       "path": "./apps/translator"
+    },
+    {
+      "path": "./libs/google-api"
+    },
+    {
+      "path": "./libs/keyboard-hook"
     }
   ]
 }

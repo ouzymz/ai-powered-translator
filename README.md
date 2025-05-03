@@ -1,101 +1,107 @@
 # Translator
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A powerful translation application built with NestJS that provides real-time translation capabilities using Google AI and OpenAI APIs.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## 🚀 Features
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- Real-time translation using Google AI and OpenAI APIs
+- Global keyboard hook for quick access
+- Configuration panel for easy settings management
 
-## Run tasks
+## 🛠️ Tech Stack
 
-To run the dev server for your app, use:
+- **Backend Framework:** NestJS
+- **AI Integration:**
+  - Google AI (Gemini)
+  - OpenAI
+- **Key Dependencies:**
+  - `@google/genai` - Google AI integration
+  - `openai` - OpenAI integration
+  - `node-global-key-listener` - Global keyboard hook
+  - `copy-paste` - Clipboard management
+  - `axios` - HTTP client
+  - `rxjs` - Reactive programming
 
-```sh
-npx nx serve translator
+## 📦 Project Structure
+
+```
+translator/
+├── apps/
+│   ├── translator/        # Main application
+│   └── translator-e2e/    # End-to-end tests
+├── libs/
+│   ├── config-panel/      # Configuration panel module
+│   ├── keyboard-hook/     # Global keyboard hook module
+│   └── google-api/        # Google AI integration module
+└── ...
 ```
 
-To create a production bundle:
+## 🚀 Getting Started
 
-```sh
-npx nx build translator
-```
+### Prerequisites
 
-To see all available targets to run for a project, run:
+- Node.js (v18 or higher)
+- npm or yarn
+- Google AI API key
+- OpenAI API key (optional)
 
-```sh
-npx nx show project translator
-```
+### Installation
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+1. Clone the repository:
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+   ```bash
+   git clone https://github.com/yourusername/translator.git
+   cd translator
+   ```
 
-## Add new projects
+2. Install dependencies:
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+   ```bash
+   npm install
+   ```
 
-Use the plugin's generator to create new projects.
+3. Start the development server:
+   ```bash
+   nx serve tranlator
+   ```
 
-To generate a new application, use:
+The application will be available at `http://localhost:3000/api`
 
-```sh
-npx nx g @nx/node:app demo
-```
+## 🛠️ Development
 
-To generate a new library, use:
+### Available Scripts
 
-```sh
-npx nx g @nx/node:lib mylib
-```
+- `npm run start:dev` - Start development server
+- `npm run build` - Build the application
+- `npm run test` - Run tests
+- `npm run lint` - Run linting
+- `npm run format` - Format code with Prettier
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Project Architecture
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The project follows a modular architecture using NestJS:
 
-## Set up CI!
+- **Main Application (`apps/translator`)**: Core application logic and API endpoints
+- **Configuration Panel (`libs/config-panel`)**: User interface for managing application settings
+- **Keyboard Hook (`libs/keyboard-hook`)**: Global keyboard listener for quick access
+- **Google API (`libs/google-api`)**: Integration with Google AI services
 
-### Step 1
+## 🤝 Contributing
 
-To connect to Nx Cloud, run the following command:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-```sh
-npx nx connect
-```
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## 📝 License
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Step 2
+## 🙏 Acknowledgments
 
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [NestJS](https://nestjs.com/)
+- [Google AI](https://ai.google.dev/)
+- [OpenAI](https://openai.com/)

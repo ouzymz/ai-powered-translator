@@ -13,6 +13,9 @@
   "exclude": [],
   "references": [
     {
+      "path": "../../libs/config-panel/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/google-api/tsconfig.lib.json"
     },
     {

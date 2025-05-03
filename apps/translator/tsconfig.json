@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/config-panel"
+    },
+    {
       "path": "../../libs/google-api"
     },
     {

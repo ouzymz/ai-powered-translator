@@ -2,14 +2,16 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import OpenAI from 'openai';
 import { GoogleGenAI } from '@google/genai';
+import { ConfigPanelService } from '@translator/config-panel';
 
 @Injectable()
 export class GoogleApiService implements OnModuleInit {
-  constructor(private eventEmitter: EventEmitter2) {}
+  constructor(
+    private eventEmitter: EventEmitter2,
+    private configService: ConfigPanelService
+  ) {}
 
-  async onModuleInit() {
-    // 'AIzaSyB_GFEChaF9BbIHan2sdxA2YA5SWAJBDE8'
-  }
+  async onModuleInit() {}
 
   @OnEvent('clipboard.content')
   async handleClipboardEvent(content: string) {
@@ -25,14 +27,13 @@ export class GoogleApiService implements OnModuleInit {
   async translateTextGemini(text: string) {
     try {
       const ai = new GoogleGenAI({
-        // apiKey: this.configService.getApiKey(),
-        apiKey: 'AIzaSyB_GFEChaF9BbIHan2sdxA2YA5SWAJBDE8',
+        apiKey: this.configService.getApiKey(),
       });
       const response = await ai.models.generateContent({
         model: 'gemini-2.0-flash-lite',
         contents:
-          // `Translate ${this.configService.getTargetLanguage()} to English. Return only the translation of the given text! Given Text: "` +
-          `Translate Turkish to English. Return only the translation of the given text! Given Text: "` +
+          `Translate ${this.configService.getLanguage()} to English. Return only the translation of the given text! Given Text: "` +
+          // `Translate Turkish to English. Return only the translation of the given text! Given Text: "` +
           text +
           '"',
       });

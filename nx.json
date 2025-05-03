@@ -24,7 +24,11 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/google-api/*", "libs/keyboard-hook/*"]
+      "exclude": [
+        "libs/google-api/*",
+        "libs/keyboard-hook/*",
+        "libs/config-panel/*"
+      ]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -38,7 +42,11 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/google-api/*", "libs/keyboard-hook/*"],
+      "include": [
+        "libs/google-api/*",
+        "libs/keyboard-hook/*",
+        "libs/config-panel/*"
+      ],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

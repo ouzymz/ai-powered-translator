@@ -16,9 +16,13 @@ export class GoogleApiService implements OnModuleInit {
   @OnEvent('clipboard.content')
   async handleClipboardEvent(content: string) {
     try {
-      const translation = await this.translateTextGemini(content);
-
-      this.eventEmitter.emit(`ai.response`, translation);
+      if (this.configService.getModel() === 'gemini') {
+        const translation = await this.translateTextGemini(content);
+        this.eventEmitter.emit(`ai.response`, translation);
+      } else {
+        const translation = await this.translateTextOpenAi(content);
+        this.eventEmitter.emit(`ai.response`, translation);
+      }
     } catch (error) {
       console.error('Translation error:', error);
     }
@@ -51,28 +55,31 @@ export class GoogleApiService implements OnModuleInit {
     this.eventEmitter.removeAllListeners('clipboard.content');
   }
 
-  // async translateTextOpenAi(text: string, targetLanguage = 'en') {
-  //   try {
-  //     const openai = new OpenAI({
-  //       baseURL: 'https://openrouter.ai/api/v1',
-  //       apiKey:
-  //         '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',
-  //     });
-  //     const completion = await openai.chat.completions.create({
-  //       messages: [
-  //         {
-  //           role: 'user',
-  //           content: ' just translate Turkish to English. ' + text,
-  //         },
-  //       ],
-  //       model: 'meta-llama/llama-4-maverick:free',
-  //     });
+  async translateTextOpenAi(text: string, targetLanguage = 'en') {
+    try {
+      const openai = new OpenAI({
+        baseURL: 'https://openrouter.ai/api/v1',
+        apiKey: this.configService.getApiKey(),
+      });
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: 'user',
+            content:
+              `Translate ${this.configService.getLanguage()} to English. Return only the translation of the given text! Given Text: "` +
+              // `Translate Turkish to English. Return only the translation of the given text! Given Text: "` +
+              text +
+              '"',
+          },
+        ],
+        model: 'meta-llama/llama-4-maverick:free',
+      });
 
-  //     console.log(completion);
-  //     return completion.choices[0].message.content;
-  //   } catch (error) {
-  //     console.error('Translation error:', error);
-  //     throw error;
-  //   }
-  // }
+      console.log(completion);
+      return completion.choices[0].message.content;
+    } catch (error) {
+      console.error('Translation error:', error);
+      throw error;
+    }
+  }
 }

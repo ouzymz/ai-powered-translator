@@ -2,13 +2,13 @@
 
 A powerful translation application built with NestJS that provides real-time translation capabilities using Google AI and OpenAI APIs.
 
-## 🚀 Features
+## Features
 
 - Real-time translation using Google AI and OpenAI APIs
 - Global keyboard hook for quick access
 - Configuration panel for easy settings management
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend Framework:** NestJS
 - **AI Integration:**
@@ -22,21 +22,21 @@ A powerful translation application built with NestJS that provides real-time tra
   - `axios` - HTTP client
   - `rxjs` - Reactive programming
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 translator/
 ├── apps/
-│   ├── translator/        # Main application
-│   └── translator-e2e/    # End-to-end tests
+│ ├── translator/ # Main application
+│ └── translator-e2e/ # End-to-end tests
 ├── libs/
-│   ├── config-panel/      # Configuration panel module
-│   ├── keyboard-hook/     # Global keyboard hook module
-│   └── google-api/        # Google AI integration module
+│ ├── config-panel/ # Configuration panel module
+│ ├── keyboard-hook/ # Global keyboard hook module
+│ └── google-api/ # Google AI integration module
 └── ...
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -60,22 +60,21 @@ translator/
    npm install
    ```
 
-3. Start the development server:
+### Starting the Application
+
+1. To start the development server, run the following command:
+
    ```bash
-   nx serve tranlator
+   nx serve translator
    ```
+
+2. Set up your ENV variables (options)
+   - create .env file in ./apps/translator
+   - select for manual configuration, enter your config.
 
 The application will be available at `http://localhost:3000/api`
 
 ## 🛠️ Development
-
-### Available Scripts
-
-- `npm run start:dev` - Start development server
-- `npm run build` - Build the application
-- `npm run test` - Run tests
-- `npm run lint` - Run linting
-- `npm run format` - Format code with Prettier
 
 ### Project Architecture
 
@@ -85,20 +84,6 @@ The project follows a modular architecture using NestJS:
 - **Configuration Panel (`libs/config-panel`)**: User interface for managing application settings
 - **Keyboard Hook (`libs/keyboard-hook`)**: Global keyboard listener for quick access
 - **Google API (`libs/google-api`)**: Integration with Google AI services
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 

@@ -1,30 +1,64 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as readline from 'readline';
 
 @Injectable()
 export class ConfigPanelService {
+  constructor(private configService: ConfigService) {}
+
   private language!: string;
   private apiKey!: string;
   private model!: string;
 
   private languageOptions: Record<number, string> = {
-    1: 'tr', // Turkish
-    2: 'es', // Spanish
-    3: 'en', // English
-    4: 'de', // German
-    5: 'fr', // French
+    1: 'tr',
+    2: 'es',
+    3: 'en',
+    4: 'de',
+    5: 'fr',
   };
   private modelOptions: Record<number, string> = {
-    1: 'gemini', // Turkish
-    2: 'meta-llama', // Spanish
+    1: 'gemini',
+    2: 'meta-llama',
+  };
+  private configType: Record<number, string> = {
+    1: 'env',
+    2: 'user-input',
   };
 
   async onModuleInit() {
-    this.language = await this.selectLanguage();
-    this.model = await this.selectModel();
-    this.apiKey = await this.ask('Please enter your API Key: ');
+    this.configType = await this.selectConfigType();
 
+    if (this.configType === 'user-input') {
+      this.language = await this.selectLanguage();
+      this.model = await this.selectModel();
+      this.apiKey = await this.ask('Please enter your API Key: ');
+    } else {
+      this.language = this.configService.get('TRANSLATE_LANGUAGE') as string;
+      this.model = this.configService.get('MODEL') as string;
+      this.apiKey = this.configService.get('API_KEY') as string;
+    }
     console.log(this.language, this.model, this.apiKey);
+    if (!this.model || !this.apiKey || !this.language) {
+      throw new ConfigurationError(
+        'Configuration values are missing: model, apiKey, or language.'
+      );
+    }
+  }
+
+  private async selectConfigType(): Promise<string> {
+    console.log('Please select your configuration source:');
+    console.log('1- Read configurations from ".env"');
+    console.log('2- Enter your configurations');
+    const choice = await this.ask('Your choice (1-2): ');
+
+    const selectedLanguage = this.configType[Number(choice)];
+    if (!selectedLanguage) {
+      console.log('Invalid selection. Please try again.');
+      return this.selectLanguage(); // Retry on invalid input
+    }
+
+    return selectedLanguage;
   }
 
   private async selectLanguage(): Promise<string> {
@@ -86,5 +120,12 @@ export class ConfigPanelService {
 
   getModel(): string {
     return this.model;
+  }
+}
+
+class ConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ConfigurationError';
   }
 }

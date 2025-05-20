@@ -9,12 +9,16 @@ import * as copyPaste from 'copy-paste';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { exec } from 'child_process';
 import * as path from 'path';
+import { ConfigPanelService } from '@translator/config-panel';
 
 @Injectable()
 export class KeyboardHookService implements OnModuleInit, OnModuleDestroy {
   private keyboard: GlobalKeyboardListener;
 
-  constructor(private eventEmitter: EventEmitter2) {
+  constructor(
+    private eventEmitter: EventEmitter2,
+    private configService: ConfigPanelService
+  ) {
     this.keyboard = new GlobalKeyboardListener();
   }
 
@@ -32,7 +36,11 @@ export class KeyboardHookService implements OnModuleInit, OnModuleDestroy {
 
   @OnEvent('keyboard.start')
   async handleStartKeyDown() {
-    await this.runAHKScript('get-request.ahk');
+    const ahkName =
+      this.configService.getRunningType() === 'select-all-cp'
+        ? 'get-request.ahk'
+        : 'get-request-copy.ahk';
+    await this.runAHKScript(ahkName);
 
     copyPaste.paste((err: Error, content: string) => {
       if (err) {
@@ -54,9 +62,12 @@ export class KeyboardHookService implements OnModuleInit, OnModuleDestroy {
         return;
       }
     });
-
+    const ahkName =
+      this.configService.getRunningType() === 'select-all-cp'
+        ? 'send-response.ahk'
+        : 'send-response-paste.ahk';
     try {
-      await this.runAHKScript('send-response.ahk');
+      await this.runAHKScript(ahkName);
     } catch (error) {
       console.log(error, 'AHKService');
     }

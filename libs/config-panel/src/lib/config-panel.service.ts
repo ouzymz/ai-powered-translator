@@ -9,6 +9,7 @@ export class ConfigPanelService {
   private language!: string;
   private apiKey!: string;
   private model!: string;
+  private runningType!: string;
 
   private languageOptions: Record<number, string> = {
     1: 'tr',
@@ -25,9 +26,14 @@ export class ConfigPanelService {
     1: 'env',
     2: 'user-input',
   };
+  private runningOptions: Record<number, string> = {
+    1: 'select-all-cp',
+    2: 'just-cp',
+  };
 
   async onModuleInit() {
     this.configType = await this.selectConfigType();
+    this.runningType = await this.selectRuningType();
 
     if (this.configType === 'user-input') {
       this.language = await this.selectLanguage();
@@ -59,6 +65,23 @@ export class ConfigPanelService {
     }
 
     return selectedLanguage;
+  }
+
+  private async selectRuningType(): Promise<string> {
+    console.log(
+      'Please select your running type (just Copy Paste or select all first)'
+    );
+    console.log('1- Before copy and paste, select all content');
+    console.log('2- Just copy selected value and past response on it.');
+    const choice = await this.ask('Your choice (1-2): ');
+
+    const selectedRuningType = this.runningOptions[Number(choice)];
+    if (!selectedRuningType) {
+      console.log('Invalid selection. Please try again.');
+      return this.selectRuningType(); // Retry on invalid input
+    }
+
+    return selectedRuningType;
   }
 
   private async selectLanguage(): Promise<string> {
@@ -120,6 +143,10 @@ export class ConfigPanelService {
 
   getModel(): string {
     return this.model;
+  }
+
+  getRunningType(): string {
+    return this.runningType;
   }
 }
 
